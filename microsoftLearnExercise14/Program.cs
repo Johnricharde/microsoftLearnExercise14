@@ -93,10 +93,9 @@
                 ourAnimals[i, 6] = $"Suggested Donation: {decimalDonation:C2}";
             }
 
-            // #5 display the top-level menu options
+            // #5 display the top-level menu options ///////////////////////////////////////////////////////////////////////////////////////////////
             do
             {
-                // NOTE: the Console.Clear method is throwing an exception in debug sessions
                 Console.Clear();
 
                 Console.WriteLine("Welcome to the Contoso PetFriends app. Your main menu options are:");
@@ -135,11 +134,12 @@
                     case "2":
                         // Display all dogs with a specified characteristic
                         string dogCharacteristic = "";
+                        
 
                         while (dogCharacteristic == "")
                         {
                             // have the user enter physical characteristics to search for
-                            Console.WriteLine($"\nEnter one desired dog characteristics to search for");
+                            Console.WriteLine($"\nEnter desired dog characteristics to search for.\nSeparated search terms by commas and no spaces.");
                             readResult = Console.ReadLine();
                             if (readResult != null)
                             {
@@ -147,22 +147,33 @@
                             }
                         }
 
-                        string dogDescription = "";
+                        string dogDescription;
+                        string[] dogCharacteristicArray = dogCharacteristic.Split(',');
+                        Array.Sort(dogCharacteristicArray);
                         bool noMatchesDog = true;
 
-                        // #6 loop through the ourAnimals array to search for matching animals
+                        // #6 loop through the ourAnimals array to search for matching animals ////////////////////////////////////////////////////
                         for (int i = 0; i < maxPets; i++)
                         {
                             if (ourAnimals[i, 1].Contains("dog"))
                             {
                                 // #7 Search combined descriptions and report results
                                 dogDescription = ourAnimals[i, 4] + "\n" + ourAnimals[i, 5];
-                                if (dogDescription.Contains(dogCharacteristic))
-                                {
-                                    Console.WriteLine($"\nOur dog {ourAnimals[i, 3]} is a match!");
-                                    Console.WriteLine(dogDescription);
 
-                                    noMatchesDog = false;
+                                foreach (string characteristic in dogCharacteristicArray)
+                                {
+
+                                    if (dogDescription.Contains(characteristic))
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine($"Our dog {ourAnimals[i, 3]} is a match for your search for \"{characteristic}\"!");
+                                        Console.ResetColor();
+                                        noMatchesDog = false;
+                                    }
+                                }
+                                if (noMatchesDog == false)
+                                {
+                                    Console.WriteLine($"{dogDescription}\n");
                                 }
                             }
                         }
