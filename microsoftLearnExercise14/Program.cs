@@ -1,4 +1,6 @@
-﻿namespace microsoftLearnExercise14
+﻿using System.Reflection.PortableExecutable;
+
+namespace microsoftLearnExercise14
 {
     internal class Program
     {
@@ -146,7 +148,6 @@
                                 dogCharacteristic = readResult.ToLower().Trim();
                             }
                         }
-
                         string dogDescription;
                         string[] dogCharacteristicArray = dogCharacteristic.Split(',');
                         Array.Sort(dogCharacteristicArray);
@@ -162,6 +163,13 @@
 
                                 foreach (string characteristic in dogCharacteristicArray)
                                 {
+                                    string[] searchingIcons = { "   ", ".  ", ".. ", "..." };
+
+                                    foreach (var icon in searchingIcons)
+                                    {
+                                        Console.Write($"Searching for {characteristic}{icon}\r");
+                                        Thread.Sleep(500);
+                                    }
 
                                     if (dogDescription.Contains(characteristic))
                                     {
